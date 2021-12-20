@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+  <%- include('../partials/header') %>
+  <body>
+    <%- include('../partials/navbar') %>
+
+    <div class="main-container" id="container">
+      <div class="overlay"></div>
+      <div class="search-overlay"></div>
+
+      <%- include('../partials/menu') %>
+
+      <div id="content" class="main-content">
+        <div class="layout-px-spacing">
+          <div class="row layout-top-spacing"></div>                      
+
+          <% if(sucesso){ %>
+            <div class="alert alert-success" role="alert">
+                <button type="button" class="close" data-dismiss="alert" aria-label="Close"><svg> ... </svg></button>
+                <strong>Sucesso!</strong> <%= sucesso %> </button>
+            </div> 
+        <% } %> 
+        <% if(erro){ %>
+            <div class="alert alert-danger" role="alert">
+                <button type="button" class="close" data-dismiss="alert" aria-label="Close"><svg> ... </svg></button>
+                <strong>Erro!</strong> <%= erro %> </button>
+            </div> 
+        <% } %> 
+        <br>
+				
+          <div class="col-xl-12 col-lg-12 col-sm-12  layout-spacing">
+            <div class="widget-content widget-content-area br-6">
+                <div class="table-responsive mb-4 mt-4">
+                    <table id="zero-config" class="table table-hover" style="width:100%">
+                        <thead>
+                            <tr>
+                                <th>Empresa</th>
+                                <th>Token</th>
+                                <th>Telefone</th>
+                                <th>Iniciar</th>
+                                <th>Encerrar</th>    
+                                <th>qrcode</th>          
+                                <th>qrcode image</th>                                
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <% dados.forEach(element => {  %>
+                                <tr>
+                                    <td><%= element.empresa %> </td>
+                                    <td><%= element.token %> </td>
+                                    <td><%= element.telefone %> </td>
+                                    <td><a <%= element.sessao == 'ativo' ? 'hidden' : '' %>  href="/whatsapp/sessionkey/<%= element.id %>" class="btn btn-primary mb-2">Iniciar</a></td>
+                                    <td><a <%= element.sessao == 'inativo' ? 'hidden' : '' %> href="/whatsapp/sessionclose/<%= element.id %>" class="btn btn-primary mb-2">Encerrar</a> </td>    
+                                    <td><a <%= element.qrcode.length > 2 ? 'hidden' : '' %> href="/whatsapp/sessionqrcode/<%= element.id %>" class="btn btn-primary mb-2">Qrcode</a> </td>    
+                                    <td><a href="<%= element.qrcode.length > 2 ? element.qrcode : '' %>" target="_blank" ><img src="<%= element.qrcode.length > 2 ? element.qrcode : '' %>" style="width:50px; height:auto;"></a></td>                                  
+                                </tr>      
+                            <%  }); %>                                                 
+                        </tbody>                      
+                    </table>
+                </div>
+            </div>
+        </div>        
+        </div>
+        <%- include('../partials/footer') %>       
+      </div>
+    </div>
+  </body>
+</html>

@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+  <%- include('../partials/header') %>
+  <body>
+    <%- include('../partials/navbar') %>
+
+    <div class="main-container" id="container">
+      <div class="overlay"></div>
+      <div class="search-overlay"></div>
+
+      <%- include('../partials/menu') %>
+
+      <div id="content" class="main-content">
+        <div class="layout-px-spacing">
+          <div class="row layout-top-spacing"></div>
+                        
+
+          <% if(sucesso){ %>
+            <div class="alert alert-success" role="alert">
+                <button type="button" class="close" data-dismiss="alert" aria-label="Close"><svg> ... </svg></button>
+                <strong>Sucesso!</strong> <%= sucesso %> </button>
+            </div> 
+        <% } %> 
+        <% if(erro){ %>
+            <div class="alert alert-danger" role="alert">
+                <button type="button" class="close" data-dismiss="alert" aria-label="Close"><svg> ... </svg></button>
+                <strong>Erro!</strong> <%= erro %> </button>
+            </div> 
+        <% } %> 
+        <br>
+				
+          <div class="col-xl-12 col-lg-12 col-sm-12  layout-spacing">
+            <div class="widget-content widget-content-area br-6">
+                <div class="table-responsive mb-4 mt-4">
+                    <table id="zero-config" class="table table-hover" style="width:100%">
+                        <thead>
+                            <tr>
+                                <th>Empresa</th>
+                                <th>Token</th>
+                                <th>Telefone</th>
+                                <th>Ação</th>                                
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <% dados.forEach(element => {  %>
+                                <tr>
+                                    <td><%= element.empresa %> </td>
+                                    <td><%= element.token %> </td>
+                                    <td><%= element.telefone %> </td>
+                                    <td>
+                                        <a href="/configuracao/editar/<%= element.id %>"  >Editar</a> 
+                                       <form action="/configuracao/deletar" style="display: inline;" onsubmit="confirmarDelecao(event, this);" method="post">
+                                       <input type="hidden" name="id" value="<%= element.id %>">
+                                       <button>Excluir</button>
+                                       </form>
+                                </tr>      
+                            <%  }); %>                                                 
+                        </tbody>                      
+                    </table>
+                </div>
+            </div>
+        </div>
+          
+        </div>
+        <%- include('../partials/footer') %>
+        <script>
+          function confirmarDelecao(event, form){
+            event.preventDefault();
+            var decisao = confirm('Deseja realmente excluir ? ');
+            if(decisao){
+              form.submit();
+            }
+          }
+        </script>
+      </div>
+    </div>
+  </body>
+</html>
